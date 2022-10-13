@@ -16,7 +16,7 @@ const Checkout = () => {
     let [orderId, setOrderId] = useState("");
 
     const sendOrder = () => {
-       
+
         if ((nombre !== "") && (email !== "") && (telefono !== "")) {
             //Creo el objeto con los Datos del Comprador
             const buyer = { name: nombre, email: email, phone: telefono };
@@ -34,7 +34,7 @@ const Checkout = () => {
             const db = getFirestore();
             const orderCollection = collection(db, "orders");
             addDoc(orderCollection, order).then(({ id }) => {
-                orderId=id;
+                orderId = id;
                 setOrderId(orderId);
                 Alert('success', 'Orden de Compra', 'Se genero la Orden con Id: ' + id).then(x => {
                     if (x.isConfirmed) {
@@ -46,6 +46,16 @@ const Checkout = () => {
             });
         }
     }
+
+    const validate=(e, elem) => {
+        elem=document.getElementById('frmOrder');
+        if (elem[0].checkValidity() === false) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        elem.classList.add('was-validated');
+        sendOrder();
+      }
 
 
 
@@ -59,26 +69,35 @@ const Checkout = () => {
                             <div className="col-md-12">
                                 <h5 className="card-title">Datos Generales</h5>
                                 <hr />
-                                <form>
-                                    <div className="form-group input-group m-t-40">
+                                <form  id="frmOrder" className="needs-validation">
+                                    <div className="form-group input-group m-t-40 has-validation">
                                         <div className="input-group-prepend">
                                             <span className="input-group-text"><i className="fas fa-user"></i></span>
                                         </div>
-                                        <input type="text" className="form-control" onInput={(e) => setNombre(e.target.value)} placeholder="Nombre Completo" aria-label="Nombre Completo" />
+                                        <input type="text" className="form-control" required onInput={(e) => setNombre(e.target.value)} placeholder="Nombre Completo" aria-label="Nombre Completo" />
+                                        <div className="invalid-feedback">
+                                            Ingrese el Nombre Completo.
+                                        </div>
                                     </div>
-                                    <div className="form-group input-group m-t-40">
+                                    <div className="form-group input-group m-t-40 has-validation">
                                         <div className="input-group-prepend">
                                             <span className="input-group-text"><i className="fas fa-address-card"></i></span>
                                         </div>
-                                        <input type="email" className="form-control" onInput={(e) => setEmail(e.target.value)} placeholder="Ingrese Correo Electronico" aria-label="Ingrese Correo Electronico" />
+                                        <input type="email" required className="form-control" onInput={(e) => setEmail(e.target.value)} placeholder="Ingrese Correo Electronico" aria-label="Ingrese Correo Electronico" />
+                                        <div className="invalid-feedback">
+                                            Ingrese un email valido.
+                                        </div>
                                     </div>
-                                    <div className="form-group input-group m-t-40">
+                                    <div className="form-group input-group m-t-40 has-validation">
                                         <div className="input-group-prepend">
                                             <span className="input-group-text"><i className="fas fa-phone"></i></span>
                                         </div>
-                                        <input type="number" className="form-control" onInput={(e) => setTelefono(e.target.value)} placeholder="Telefono" aria-label="Telefono" />
+                                        <input type="number" required className="form-control" onInput={(e) => setTelefono(e.target.value)} placeholder="Telefono" aria-label="Telefono" />
+                                        <div className="invalid-feedback">
+                                            Ingrese el Telefono.
+                                        </div>
                                     </div>
-                                    <button type="button" className="btn btn-info" onClick={() => { sendOrder() }}>Generar Orden</button>
+                                    <button type="button" className="btn btn-info" onClick={(e,ele) => { validate(e,ele) }}>Generar Orden</button>
                                 </form>
                             </div>
 
@@ -111,7 +130,7 @@ const Checkout = () => {
                                                     <h5 className="font-500">{i.nombre}</h5>
                                                     <p>{i.Descripcion}</p>
                                                 </td>
-                                               
+
                                                 <td width="100" align="center" className="font-500">S/. {i.subtotal}</td>
 
                                             </tr>

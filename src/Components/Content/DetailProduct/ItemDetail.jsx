@@ -29,7 +29,7 @@ const ItemDetail = ({ item }) => {
                                 <h4 className="box-title m-t-40">Descripcion</h4>
                                 <p>{item.Descripcion}</p>
                                 <h2 className="m-t-40">S/. {item.precio} </h2>
-                                <div className="col-md-4" style={{ paddingLeft: '0' }}>
+                                <div className="col-md-5" style={{ paddingLeft: '0' }}>
                                     <ItemCount item={item} initial={1} onAdd={onAdd} IsItemDetail={true}></ItemCount>
                                 </div>
                             </div>

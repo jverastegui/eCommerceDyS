@@ -38,7 +38,7 @@ const ItemCount = (props) => {
                 </div>
                 <div className="d-grid gap-2 pt-1" style={{ textAlign: 'center', marginTop: '10px' }}>
                     <button disabled={props.item.stock <= 0} onClick={() => { props.onAdd(counts); }} className="btn btn-dark btn-rounded m-r-5" data-toggle="tooltip" title="" data-original-title="Agregar al Carro">
-                        <i className="ti-shopping-cart"></i>
+                        <i className="ti-shopping-cart"></i> Agregar
                     </button>
                     <Link to={'/cart'} style={{ marginLeft: '7px' }} className="btn btn-primary btn-rounded">Comprar</Link>
                 </div>
